@@ -44,7 +44,11 @@ There are two ways to use this program, in your local machine:
    ```
    git clone https://github.com/BPMN-sw-evol/MSGF-BPM-Engine.git
    ```
-
+2. Create a .env file with the database connection info:
+   ```
+   DB_USERNAME=postgres
+   DB_PASSWORD=admin
+   ```
 2. Open the **MSGF-BPM-Engine** folder and find the **Application** file containing the main method
 3. If you want to use it locally run the program with the start option (upper green triangle).
 4. If you want to use it with Docker, execute the following command in the root folder of the project:
