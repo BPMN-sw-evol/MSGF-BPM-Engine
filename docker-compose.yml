@@ -4,9 +4,9 @@ services:
   msgf-bpm-engine:
     build:
       context: .
-      dockerfile: Dockerfile  # Asegúrate de que el Dockerfile esté en el mismo directorio que el docker-compose.yml
+      dockerfile: Dockerfile
     ports:
-      - "9000:9000"  # Puedes ajustar el puerto según sea necesario
+      - "9000:9000"
     depends_on:
       - camunda-engine
     environment:
@@ -15,13 +15,32 @@ services:
       SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}
       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
-      # Otras configuraciones de tu aplicación
 
   camunda-engine:
     image: postgres:latest
     environment:
       POSTGRES_DB: camunda-engine
-      POSTGRES_USER: postgres
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5432:5432"
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:22.0.3
+    ports:
+      - "9001:8080"
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    depends_on:
+      - keycloak-db
+    command: ["start-dev"]
+
+  keycloak-db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: keycloak-db  # Base de datos de Keycloak
+      POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
     ports:
-      - "5432:5432"  # Puedes ajustar el puerto según sea necesario
+      - "5433:5432"  # Utiliza un puerto diferente para la base de datos de Keycloak
