@@ -12,35 +12,74 @@
       <bpmn:lane id="Lane_0zvk2yk" name="Credit analyst">
         <bpmn:flowNodeRef>Activity_0h13zv2</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_0tj2nvy</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Activity_059qkaj</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Event_0sf663o</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_059qkaj</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_1admtq3" name="Credit Committeeo">
-        <bpmn:flowNodeRef>Activity_0fenlv6</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_14mlhta</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Event_0w6rien</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Event_0qeruoj</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_131uv17</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_0fenlv6</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_0mkk6sy</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
-    <bpmn:sequenceFlow id="Flow_0q4yh2y" sourceRef="Activity_059qkaj" targetRef="Event_0sf663o" />
-    <bpmn:sequenceFlow id="Flow_13h2m3z" name="Si" sourceRef="Gateway_0tj2nvy" targetRef="Activity_14mlhta">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isValid == true}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_1hh53wa" name="No" sourceRef="Gateway_0tj2nvy" targetRef="Activity_059qkaj">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isValid == false}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_0r13bel" sourceRef="Activity_0h13zv2" targetRef="Gateway_0tj2nvy" />
-    <bpmn:sequenceFlow id="Flow_1mnnwoe" sourceRef="Activity_1emma31" targetRef="Activity_0h13zv2" />
-    <bpmn:sequenceFlow id="Flow_14z68dw" sourceRef="StartEvent_1" targetRef="Activity_1emma31" />
     <bpmn:sequenceFlow id="Flow_15ajfyo" name="No" sourceRef="Gateway_131uv17" targetRef="Activity_0mkk6sy">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${financialViability == false}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_0mz5k6t" sourceRef="Activity_0mkk6sy" targetRef="Event_0qeruoj" />
-    <bpmn:startEvent id="StartEvent_1" name="Deseo obtener un crédito con MsgFoundation">
-      <bpmn:outgoing>Flow_14z68dw</bpmn:outgoing>
-    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0wi1d5v" sourceRef="Activity_14mlhta" targetRef="Gateway_131uv17" />
+    <bpmn:sequenceFlow id="Flow_1scdbc4" sourceRef="Activity_0fenlv6" targetRef="Event_0w6rien" />
+    <bpmn:sequenceFlow id="Flow_1o84581" name="Si" sourceRef="Gateway_131uv17" targetRef="Activity_0fenlv6">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${financialViability == true}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0q4yh2y" sourceRef="Activity_059qkaj" targetRef="Event_0sf663o" />
+    <bpmn:sequenceFlow id="Flow_1hh53wa" name="No" sourceRef="Gateway_0tj2nvy" targetRef="Activity_059qkaj">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isValid == false}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_13h2m3z" name="Si" sourceRef="Gateway_0tj2nvy" targetRef="Activity_14mlhta">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isValid == true}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0r13bel" sourceRef="Activity_0h13zv2" targetRef="Gateway_0tj2nvy" />
+    <bpmn:sequenceFlow id="Flow_1mnnwoe" sourceRef="Activity_1emma31" targetRef="Activity_0h13zv2" />
+    <bpmn:sequenceFlow id="Flow_14z68dw" sourceRef="StartEvent_1" targetRef="Activity_1emma31" />
+    <bpmn:exclusiveGateway id="Gateway_131uv17" name="¿Tiene viabilidad financiera?">
+      <bpmn:incoming>Flow_0wi1d5v</bpmn:incoming>
+      <bpmn:outgoing>Flow_15ajfyo</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1o84581</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Event_0qeruoj" name="Solicitud cancelada por recursos">
+      <bpmn:incoming>Flow_0mz5k6t</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="Event_0w6rien" name="Crédito aprobado">
+      <bpmn:incoming>Flow_1scdbc4</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="Activity_14mlhta" name="Verificar si el crédito tiene viabilidad financiera" camunda:assignee="Credit_Committeeo">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="financialViability" label="Financial Viability" type="boolean" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_13h2m3z</bpmn:incoming>
+      <bpmn:outgoing>Flow_0wi1d5v</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="Event_0sf663o" name="Solicitud cancelada por inconsistencias">
+      <bpmn:incoming>Flow_0q4yh2y</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="Gateway_0tj2nvy" name="¿La solicitud es valida?">
+      <bpmn:incoming>Flow_0r13bel</bpmn:incoming>
+      <bpmn:outgoing>Flow_1hh53wa</bpmn:outgoing>
+      <bpmn:outgoing>Flow_13h2m3z</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Activity_0h13zv2" name="Establecer si la solicitud es válida" camunda:assignee="Credit_Analyst">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="isValid" label="Is Valid" type="boolean" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1mnnwoe</bpmn:incoming>
+      <bpmn:outgoing>Flow_0r13bel</bpmn:outgoing>
+    </bpmn:userTask>
     <bpmn:userTask id="Activity_1emma31" name="Diligenciar formulario de solicitud" camunda:assignee="Married_Couple">
       <bpmn:extensionElements>
         <camunda:formData>
@@ -55,30 +94,9 @@
       <bpmn:incoming>Flow_14z68dw</bpmn:incoming>
       <bpmn:outgoing>Flow_1mnnwoe</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:userTask id="Activity_0h13zv2" name="Establecer si la solicitud es válida" camunda:assignee="Credit_Analyst">
-      <bpmn:extensionElements>
-        <camunda:formData>
-          <camunda:formField id="isValid" label="Is Valid" type="boolean" />
-        </camunda:formData>
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_1mnnwoe</bpmn:incoming>
-      <bpmn:outgoing>Flow_0r13bel</bpmn:outgoing>
-    </bpmn:userTask>
-    <bpmn:exclusiveGateway id="Gateway_0tj2nvy" name="¿La solicitud es valida?">
-      <bpmn:incoming>Flow_0r13bel</bpmn:incoming>
-      <bpmn:outgoing>Flow_1hh53wa</bpmn:outgoing>
-      <bpmn:outgoing>Flow_13h2m3z</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-    <bpmn:userTask id="Activity_059qkaj" name="Informar que el crédito tiene inconsitencias" camunda:assignee="Credit_Analyst">
-      <bpmn:extensionElements>
-        <camunda:formData />
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_1hh53wa</bpmn:incoming>
-      <bpmn:outgoing>Flow_0q4yh2y</bpmn:outgoing>
-    </bpmn:userTask>
-    <bpmn:endEvent id="Event_0sf663o" name="Solicitud cancelada por inconsistencias">
-      <bpmn:incoming>Flow_0q4yh2y</bpmn:incoming>
-    </bpmn:endEvent>
+    <bpmn:startEvent id="StartEvent_1" name="Deseo obtener un crédito con MsgFoundation">
+      <bpmn:outgoing>Flow_14z68dw</bpmn:outgoing>
+    </bpmn:startEvent>
     <bpmn:userTask id="Activity_0fenlv6" name="Aprobar crédito" camunda:assignee="Credit_Committeeo">
       <bpmn:extensionElements>
         <camunda:formData />
@@ -86,37 +104,19 @@
       <bpmn:incoming>Flow_1o84581</bpmn:incoming>
       <bpmn:outgoing>Flow_1scdbc4</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:userTask id="Activity_14mlhta" name="Verificar si el crédito tiene viabilidad financiera" camunda:assignee="Credit_Committeeo">
-      <bpmn:extensionElements>
-        <camunda:formData>
-          <camunda:formField id="financialViability" label="Financial Viability" type="boolean" />
-        </camunda:formData>
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_13h2m3z</bpmn:incoming>
-      <bpmn:outgoing>Flow_0wi1d5v</bpmn:outgoing>
-    </bpmn:userTask>
-    <bpmn:endEvent id="Event_0w6rien" name="Crédito aprobado">
-      <bpmn:incoming>Flow_1scdbc4</bpmn:incoming>
-    </bpmn:endEvent>
-    <bpmn:endEvent id="Event_0qeruoj" name="Solicitud cancelada por recursos">
-      <bpmn:incoming>Flow_0mz5k6t</bpmn:incoming>
-    </bpmn:endEvent>
-    <bpmn:exclusiveGateway id="Gateway_131uv17" name="¿Tiene viabilidad financiera?">
-      <bpmn:incoming>Flow_0wi1d5v</bpmn:incoming>
-      <bpmn:outgoing>Flow_15ajfyo</bpmn:outgoing>
-      <bpmn:outgoing>Flow_1o84581</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="Flow_1o84581" name="Si" sourceRef="Gateway_131uv17" targetRef="Activity_0fenlv6">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${financialViability == true}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_1scdbc4" sourceRef="Activity_0fenlv6" targetRef="Event_0w6rien" />
-    <bpmn:sequenceFlow id="Flow_0wi1d5v" sourceRef="Activity_14mlhta" targetRef="Gateway_131uv17" />
     <bpmn:userTask id="Activity_0mkk6sy" name="Informar que no hay recursos disponibles" camunda:assignee="Credit_Committeeo">
       <bpmn:extensionElements>
         <camunda:formData />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_15ajfyo</bpmn:incoming>
       <bpmn:outgoing>Flow_0mz5k6t</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Activity_059qkaj" name="Informar que el crédito tiene inconsitencias" camunda:assignee="Credit_Analyst">
+      <bpmn:extensionElements>
+        <camunda:formData />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1hh53wa</bpmn:incoming>
+      <bpmn:outgoing>Flow_0q4yh2y</bpmn:outgoing>
     </bpmn:userTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -154,7 +154,7 @@
       <bpmndi:BPMNShape id="Gateway_0tj2nvy_di" bpmnElement="Gateway_0tj2nvy" isMarkerVisible="true">
         <dc:Bounds x="845" y="385" width="50" height="50" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="831.5" y="347.5" width="77" height="27" />
+          <dc:Bounds x="832" y="348" width="77" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1d14pnc_di" bpmnElement="Activity_059qkaj">
@@ -187,7 +187,7 @@
       <bpmndi:BPMNShape id="Gateway_131uv17_di" bpmnElement="Gateway_131uv17" isMarkerVisible="true">
         <dc:Bounds x="1015" y="645" width="50" height="50" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1074.5" y="656" width="83" height="27" />
+          <dc:Bounds x="1075" y="656" width="83" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0begfw4_di" bpmnElement="Activity_0mkk6sy">

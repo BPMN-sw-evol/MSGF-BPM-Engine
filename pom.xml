@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.msgfoundation</groupId>
-  <artifactId>MsgFoundation</artifactId>
+  <artifactId>MSGF-BPM-Engine</artifactId>
   <version>1.0.0-SNAPSHOT</version>
 
   <properties>
@@ -61,8 +61,27 @@
     </dependency>
 
     <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+
+    <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-jdbc</artifactId>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.camunda.bpm.extension.swagger/camunda-bpm-swagger-json -->
+    <dependency>
+      <groupId>org.camunda.bpm.extension.swagger</groupId>
+      <artifactId>camunda-bpm-swagger-json</artifactId>
+      <version>7.8.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.webjars</groupId>
+      <artifactId>swagger-ui</artifactId>
+      <version>3.1.4</version>
     </dependency>
 
   </dependencies>
@@ -73,6 +92,16 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
         <version>2.7.9</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <mainClass>com.msgfoundation.Application</mainClass>
+        </configuration>
       </plugin>
     </plugins>
   </build>

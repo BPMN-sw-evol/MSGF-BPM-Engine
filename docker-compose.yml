@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  msgf-bpm-engine:
+    build:
+      context: .
+      dockerfile: Dockerfile  # Asegúrate de que el Dockerfile esté en el mismo directorio que el docker-compose.yml
+    ports:
+      - "9000:9000"  # Puedes ajustar el puerto según sea necesario
+    depends_on:
+      - camunda-engine
+    environment:
+      # Configuración para tu aplicación Spring Boot
+      SPRING_DATASOURCE_URL: jdbc:postgresql://camunda-engine:5432/camunda-engine
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: admin
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      # Otras configuraciones de tu aplicación
+
+  camunda-engine:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: camunda-engine
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5432:5432"  # Puedes ajustar el puerto según sea necesario
