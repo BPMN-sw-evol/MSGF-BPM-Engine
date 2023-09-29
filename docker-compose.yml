@@ -24,23 +24,3 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
       - "5432:5432"
-
-  keycloak:
-    image: quay.io/keycloak/keycloak:22.0.3
-    ports:
-      - "9001:8080"
-    environment:
-      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
-      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
-    depends_on:
-      - keycloak-db
-    command: ["start-dev"]
-
-  keycloak-db:
-    image: postgres:latest
-    environment:
-      POSTGRES_DB: keycloak-db  # Base de datos de Keycloak
-      POSTGRES_USER: ${DB_USERNAME}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-    ports:
-      - "5433:5432"  # Utiliza un puerto diferente para la base de datos de Keycloak
