@@ -12,8 +12,8 @@ services:
     environment:
       # Configuración para tu aplicación Spring Boot
       SPRING_DATASOURCE_URL: jdbc:postgresql://camunda-engine:5432/camunda-engine
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: admin
+      SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
       # Otras configuraciones de tu aplicación
 
