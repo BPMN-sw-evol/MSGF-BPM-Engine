@@ -1,4 +1,4 @@
-version: '3'
+version: '3.9'
 
 services:
   msgf-bpm-engine:
@@ -7,20 +7,9 @@ services:
       dockerfile: Dockerfile
     ports:
       - "9000:9000"
-    depends_on:
-      - camunda-engine
     environment:
       # Configuración para tu aplicación Spring Boot
-      SPRING_DATASOURCE_URL: jdbc:postgresql://camunda-engine:5432/camunda-engine
-      SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}
-      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      SPRING_DATASOURCE_URL: jdbc:postgresql://rds-msgf.cyrlczakjihy.us-east-1.rds.amazonaws.com:5432/camunda_engine
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: msgfoundation
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
-
-  camunda-engine:
-    image: postgres:latest
-    environment:
-      POSTGRES_DB: camunda-engine
-      POSTGRES_USER: ${DB_USERNAME}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-    ports:
-      - "5432:5432"

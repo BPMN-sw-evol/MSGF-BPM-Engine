@@ -1,12 +1,14 @@
-# Establece la imagen base del contenedor como una imagen Alpine Linux con Java 17.
-FROM khipu/openjdk17-alpine:latest
+FROM maven:3.8.1-openjdk-17-slim AS MAVEN_BUILD
 
-# Copia el archivo JAR de la aplicación desde el sistema local al directorio raíz del contenedor.
-COPY /target/MSGF-BPM-Engine-1.0.0-SNAPSHOT.jar MSGF-BPM-Engine-1.0.0-SNAPSHOT.jar
+RUN mkdir /sources
+COPY ./ /sources
 
-# Expone el puerto 9000 en el contenedor. Esto permite conexiones entrantes en el puerto 9000.
+RUN echo "Building app..." && cd /sources && mvn clean package -DskipTests
+
+FROM openjdk:17-oracle
+
+WORKDIR /app
+COPY --from=MAVEN_BUILD /sources/target/MSGF-BPM-Engine-1.0.0-SNAPSHOT.jar /app/MSGF-BPM-Engine-1.0.0-SNAPSHOT.jar
 EXPOSE 9000
 
-# Configura el punto de entrada del contenedor para ejecutar la aplicación Java.
-# Cuando el contenedor se inicia, se ejecutará este comando.
-ENTRYPOINT ["java", "-jar", "MSGF-BPM-Engine-1.0.0-SNAPSHOT.jar"]
+CMD ["java", "-jar", "MSGF-BPM-Engine-1.0.0-SNAPSHOT.jar"]
