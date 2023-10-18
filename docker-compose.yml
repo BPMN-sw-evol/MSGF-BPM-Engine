@@ -1,4 +1,4 @@
-version: '3'
+version: '3.9'
 
 services:
   msgf-bpm-engine:
@@ -9,7 +9,7 @@ services:
       - "9000:9000"
     environment:
       # Configuración para tu aplicación Spring Boot
-      SPRING_DATASOURCE_URL: ${DB_HOSTNAME}
-      SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}
-      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      SPRING_DATASOURCE_URL: jdbc:postgresql://rds-msgf.cyrlczakjihy.us-east-1.rds.amazonaws.com:5432/camunda_engine
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: msgfoundation
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
