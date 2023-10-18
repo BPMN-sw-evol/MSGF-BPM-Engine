@@ -72,6 +72,7 @@
           <camunda:formField id="coupleName1" label="Couple Name 1" type="string" />
           <camunda:formField id="coupleName2" label="Couple Name 2" type="string" />
           <camunda:formField id="creationDate" label="Credit Request Creation Date" type="string" />
+          <camunda:formField id="codRequest" label="Code Request" type="long" />
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_044usj0</bpmn:incoming>
