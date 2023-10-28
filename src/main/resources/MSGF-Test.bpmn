@@ -35,6 +35,8 @@
           <camunda:formField id="creationDate" label="Credit Request Creation Date" type="string" />
           <camunda:formField id="bothEmployees" label="Both are employeed" type="boolean" />
           <camunda:formField id="marriageYears" label="marriageYears" type="long" />
+          <camunda:formField id="coupleEmail1" label="Couple Email 1" type="string" />
+          <camunda:formField id="coupleEmail2" label="Couple Email 2" type="string" />
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1mnnwoe</bpmn:incoming>
@@ -78,6 +80,8 @@
           <camunda:formField id="coupleName2" label="Couple Name 2" type="string" />
           <camunda:formField id="creationDate" label="Credit Request Creation Date" type="string" />
           <camunda:formField id="codRequest" label="Code Request" type="long" />
+          <camunda:formField id="coupleEmail1" label="Couple Email 1" type="string" />
+          <camunda:formField id="coupleEmail2" label="Couple Email 2" type="string" />
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_044usj0</bpmn:incoming>
@@ -104,6 +108,8 @@
           <camunda:formField id="bothEmployees" label="Both are employeed" type="boolean" />
           <camunda:formField id="creationDate" label="Credit Request Creation Date" type="string" />
           <camunda:formField id="marriageYears" label="marriageYears" type="long" />
+          <camunda:formField id="coupleEmail1" label="coupleEmail1" type="string" />
+          <camunda:formField id="coupleEmail2" label="Couple Email 2" type="string" />
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0sw7zso</bpmn:incoming>
@@ -121,6 +127,8 @@
           <camunda:formField id="bothEmployees" label="Both are employeed" type="boolean" />
           <camunda:formField id="creationDate" label="Credit Request Creation Date" type="string" />
           <camunda:formField id="marriageYears" label="marriageYears" type="long" />
+          <camunda:formField id="coupleEmail1" label="Couple Email 1" type="string" />
+          <camunda:formField id="coupleEmail2" label="Couple Email 2" type="string" />
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_13h2m3z</bpmn:incoming>
