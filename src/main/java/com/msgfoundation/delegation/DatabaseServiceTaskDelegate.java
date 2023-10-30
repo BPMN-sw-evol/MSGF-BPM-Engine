@@ -1,21 +1,35 @@
 package com.msgfoundation.delegation;
 
+import com.msgfoundation.anotaciones.BPMNTask;
+import com.msgfoundation.anotaciones.GetVariable;
+import com.msgfoundation.anotaciones.SetVariables;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-
+@BPMNTask({"type=ServiceTask", "name=Consultar información financiera"})
 public class DatabaseServiceTaskDelegate implements JavaDelegate {
 
+    @GetVariable("codRequest")
+    private Long codRequest;
+
+    @SetVariables({"coupleSavings","housePrices","quotaValue"})
+    private void updateVariables(DelegateExecution execution, long coupleSavings, long housesPrices, long quotaValue){
+        System.out.println("Couple Savings: " + coupleSavings);
+        System.out.println("Houses Prices: " + housesPrices);
+        System.out.println("Quota Value: " + quotaValue);
+
+        execution.setVariable("coupleSavings",coupleSavings);
+        execution.setVariable("housePrices",housesPrices);
+        execution.setVariable("quotaValue",quotaValue);
+    }
     @Override
     public void execute(DelegateExecution execution) throws Exception {
-        Long codRequest = (Long) execution.getProcessInstance().getVariables().get("codRequest");
+        codRequest = (Long) execution.getProcessInstance().getVariables().get("codRequest");
         if (codRequest != null) {
             try {
                 // Establecer la conexión a la base de datos PostgreSQL
@@ -29,21 +43,12 @@ public class DatabaseServiceTaskDelegate implements JavaDelegate {
                 // Ejecutar la consulta en la base de datos
                 ResultSet resultSet = preparedStatement.executeQuery();
 
-                // Procesar los resultados
-                while (resultSet.next()) {
-                    long coupleSavings = resultSet.getLong("couple_savings");
-                    long housesPrices = resultSet.getLong("house_prices");
-                    long quotaValue = resultSet.getLong("quota_value");
+                long coupleSavings = resultSet.getLong("couple_savings");
+                long housesPrices = resultSet.getLong("house_prices");
+                long quotaValue = resultSet.getLong("quota_value");
 
-                    // Realizar cualquier operación adicional aquí con los resultados obtenidos
-                    System.out.println("Couple Savings: " + coupleSavings);
-                    System.out.println("Houses Prices: " + housesPrices);
-                    System.out.println("Quota Value: " + quotaValue);
-
-                    execution.setVariable("coupleSavings",coupleSavings);
-                    execution.setVariable("housePrices",housesPrices);
-                    execution.setVariable("quotaValue",quotaValue);
-                }
+                //@SetVariables implementation
+                updateVariables(execution,coupleSavings,housesPrices,quotaValue);
 
                 // Cerrar la conexión
                 resultSet.close();
