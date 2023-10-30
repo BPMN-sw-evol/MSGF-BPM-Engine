@@ -14,8 +14,8 @@
         <bpmn:flowNodeRef>Event_0sf663o</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_1rrp4l2</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_0w7pg72</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Activity_1ee94lw</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_0tj2nvy</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_1ee94lw</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_05ry7sv" name="Married couple">
         <bpmn:flowNodeRef>StartEvent_1</bpmn:flowNodeRef>
@@ -30,6 +30,13 @@
       <bpmn:extensionElements>
         <camunda:formData>
           <camunda:formField id="allFine" label="All fine" type="boolean" />
+          <camunda:formField id="coupleName1" label="Couple Name 1" type="string" />
+          <camunda:formField id="coupleName2" label="Couple Name1" type="string" />
+          <camunda:formField id="creationDate" label="Credit Request Creation Date" type="string" />
+          <camunda:formField id="bothEmployees" label="Both are employeed" type="boolean" />
+          <camunda:formField id="marriageYears" label="marriageYears" type="long" />
+          <camunda:formField id="coupleEmail1" label="Couple Email 1" type="string" />
+          <camunda:formField id="coupleEmail2" label="Couple Email 2" type="string" />
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1mnnwoe</bpmn:incoming>
@@ -73,6 +80,8 @@
           <camunda:formField id="coupleName2" label="Couple Name 2" type="string" />
           <camunda:formField id="creationDate" label="Credit Request Creation Date" type="string" />
           <camunda:formField id="codRequest" label="Code Request" type="long" />
+          <camunda:formField id="coupleEmail1" label="Couple Email 1" type="string" />
+          <camunda:formField id="coupleEmail2" label="Couple Email 2" type="string" />
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_044usj0</bpmn:incoming>
@@ -91,19 +100,35 @@
       <bpmn:extensionElements>
         <camunda:formData>
           <camunda:formField id="isValid" label="Is Valid" type="boolean" />
+          <camunda:formField id="coupleSavings" label="Couple Saving" type="long" />
+          <camunda:formField id="housePrices" label="housePrices" type="long" />
+          <camunda:formField id="quotaValue" label="quotaValue" type="long" />
+          <camunda:formField id="coupleName1" label="Couple Name 1" type="string" />
+          <camunda:formField id="coupleName2" label="Couple Name 2" type="string" />
+          <camunda:formField id="bothEmployees" label="Both are employeed" type="boolean" />
+          <camunda:formField id="creationDate" label="Credit Request Creation Date" type="string" />
+          <camunda:formField id="marriageYears" label="marriageYears" type="long" />
+          <camunda:formField id="coupleEmail1" label="coupleEmail1" type="string" />
+          <camunda:formField id="coupleEmail2" label="Couple Email 2" type="string" />
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0sw7zso</bpmn:incoming>
       <bpmn:outgoing>Flow_0pc6vee</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:serviceTask id="Activity_1ee94lw" name="Consultar información financiera" camunda:class="com.msgfoundation.delegation.DatabaseServiceTaskDelegate">
-      <bpmn:incoming>Flow_15uakk4</bpmn:incoming>
-      <bpmn:outgoing>Flow_0sw7zso</bpmn:outgoing>
-    </bpmn:serviceTask>
     <bpmn:userTask id="Activity_14mlhta" name="Verificar si el crédito tiene viabilidad financiera">
       <bpmn:extensionElements>
         <camunda:formData>
           <camunda:formField id="financialViability" label="Financial Viability" type="boolean" />
+          <camunda:formField id="coupleSavings" label="CoupleSavings" type="long" />
+          <camunda:formField id="housePrices" label="House Prices" type="long" />
+          <camunda:formField id="quotaValue" label="Quota Value" type="long" />
+          <camunda:formField id="coupleName1" label="Couple Name 1" type="string" />
+          <camunda:formField id="coupleName2" label="Couple Name 2" type="string" />
+          <camunda:formField id="bothEmployees" label="Both are employeed" type="boolean" />
+          <camunda:formField id="creationDate" label="Credit Request Creation Date" type="string" />
+          <camunda:formField id="marriageYears" label="marriageYears" type="long" />
+          <camunda:formField id="coupleEmail1" label="Couple Email 1" type="string" />
+          <camunda:formField id="coupleEmail2" label="Couple Email 2" type="string" />
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_13h2m3z</bpmn:incoming>
@@ -114,6 +139,11 @@
       <bpmn:outgoing>Flow_1hh53wa</bpmn:outgoing>
       <bpmn:outgoing>Flow_13h2m3z</bpmn:outgoing>
     </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="Activity_1ee94lw" name="Consultar información financiera" camunda:class="com.msgfoundation.delegation.DatabaseServiceTaskDelegate">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_15uakk4</bpmn:incoming>
+      <bpmn:outgoing>Flow_0sw7zso</bpmn:outgoing>
+    </bpmn:serviceTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0stzrfy">
@@ -171,10 +201,6 @@
       <bpmndi:BPMNShape id="Activity_10ycqpu_di" bpmnElement="Activity_0w7pg72">
         <dc:Bounds x="1070" y="370" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0a25hu8_di" bpmnElement="Activity_1ee94lw">
-        <dc:Bounds x="870" y="370" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_01obvth_di" bpmnElement="Activity_14mlhta">
         <dc:Bounds x="1240" y="630" width="100" height="80" />
       </bpmndi:BPMNShape>
@@ -183,6 +209,10 @@
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1252" y="348" width="77" height="27" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0a25hu8_di" bpmnElement="Activity_1ee94lw">
+        <dc:Bounds x="870" y="370" width="100" height="80" />
+        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_14z68dw_di" bpmnElement="Flow_14z68dw">
         <di:waypoint x="326" y="190" />
