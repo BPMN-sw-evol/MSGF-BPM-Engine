@@ -1,7 +1,7 @@
 package com.msgfoundation.delegation;
 
 import com.msgfoundation.anotaciones.BPMNTask;
-import com.msgfoundation.anotaciones.GetVariable;
+import com.msgfoundation.anotaciones.GetVariables;
 import com.msgfoundation.anotaciones.SetVariables;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -11,13 +11,13 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-@BPMNTask({"type=ServiceTask", "name=Consultar información financiera"})
+@BPMNTask(type="ServiceTask", name="Consultar información financiera")
 public class DatabaseServiceTaskDelegate implements JavaDelegate {
 
-    @GetVariable("codRequest")
+    @GetVariables(variables="codRequest")
     private Long codRequest;
 
-    @SetVariables({"coupleSavings","housePrices","quotaValue"})
+    @SetVariables(variables= {"coupleSavings", "housePrices", "quotaValue"})
     private void updateVariables(DelegateExecution execution, long coupleSavings, long housesPrices, long quotaValue){
         System.out.println("Couple Savings: " + coupleSavings);
         System.out.println("Houses Prices: " + housesPrices);
@@ -47,7 +47,7 @@ public class DatabaseServiceTaskDelegate implements JavaDelegate {
                 long housesPrices = resultSet.getLong("house_prices");
                 long quotaValue = resultSet.getLong("quota_value");
 
-                //@SetVariables implementation
+                //@SetVariables(variables= {"coupleSavings", "housePrices", "quotaValue"});
                 updateVariables(execution,coupleSavings,housesPrices,quotaValue);
 
                 // Cerrar la conexión

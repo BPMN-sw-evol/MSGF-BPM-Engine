@@ -6,9 +6,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.SOURCE)
-@Target({ElementType.TYPE})
+@Target(ElementType.TYPE)
 public @interface BPMNTask {
-   String[] value() default {}; // Atributo value como un arreglo de strings
-
+   String type() default ""; // Atributo value como un arreglo de strings
+   String name() default ""; // Atributo value como un arreglo de strings
 
 }
