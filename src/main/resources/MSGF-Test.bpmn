@@ -37,6 +37,7 @@
           <camunda:formField id="marriageYears" label="marriageYears" type="long" />
           <camunda:formField id="coupleEmail1" label="Couple Email 1" type="string" />
           <camunda:formField id="coupleEmail2" label="Couple Email 2" type="string" />
+          <camunda:formField id="countReviewsBpm" label="Count Reviews BPM" type="long" />
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1mnnwoe</bpmn:incoming>
@@ -82,6 +83,7 @@
           <camunda:formField id="codRequest" label="Code Request" type="long" />
           <camunda:formField id="coupleEmail1" label="Couple Email 1" type="string" />
           <camunda:formField id="coupleEmail2" label="Couple Email 2" type="string" />
+          <camunda:formField id="countReviewsBpm" label="Count Reviews BPM" type="long" />
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_044usj0</bpmn:incoming>
