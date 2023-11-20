@@ -11,11 +11,11 @@
       </bpmn:lane>
       <bpmn:lane id="Lane_0zvk2yk" name="Credit analyst">
         <bpmn:flowNodeRef>Activity_0h13zv2</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Event_0sf663o</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_1rrp4l2</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_0w7pg72</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_0tj2nvy</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_1ee94lw</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Event_0sf663o</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_05ry7sv" name="Married couple">
         <bpmn:flowNodeRef>StartEvent_1</bpmn:flowNodeRef>
@@ -55,9 +55,6 @@
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_0647aye" sourceRef="Activity_14mlhta" targetRef="Event_0w6rien" />
     <bpmn:sequenceFlow id="Flow_0sw7zso" sourceRef="Activity_1ee94lw" targetRef="Activity_0w7pg72" />
-    <bpmn:endEvent id="Event_0sf663o" name="Solicitud cancelada por inconsistencias">
-      <bpmn:incoming>Flow_1hh53wa</bpmn:incoming>
-    </bpmn:endEvent>
     <bpmn:endEvent id="Event_0w6rien" name="Crédito aprobado">
       <bpmn:incoming>Flow_0647aye</bpmn:incoming>
     </bpmn:endEvent>
@@ -146,6 +143,9 @@
       <bpmn:incoming>Flow_15uakk4</bpmn:incoming>
       <bpmn:outgoing>Flow_0sw7zso</bpmn:outgoing>
     </bpmn:serviceTask>
+    <bpmn:endEvent id="Event_0sf663o" name="Solicitud cancelada por inconsistencias">
+      <bpmn:incoming>Flow_1hh53wa</bpmn:incoming>
+    </bpmn:endEvent>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0stzrfy">
@@ -174,12 +174,6 @@
       <bpmndi:BPMNShape id="Activity_04q4b2a_di" bpmnElement="Activity_0h13zv2">
         <dc:Bounds x="580" y="370" width="100" height="80" />
         <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0sf663o_di" bpmnElement="Event_0sf663o">
-        <dc:Bounds x="1482" y="392" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1462" y="440" width="76" height="40" />
-        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0w6rien_di" bpmnElement="Event_0w6rien">
         <dc:Bounds x="1482" y="652" width="36" height="36" />
@@ -216,6 +210,12 @@
         <dc:Bounds x="870" y="370" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0sf663o_di" bpmnElement="Event_0sf663o">
+        <dc:Bounds x="1592" y="392" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1572" y="440" width="76" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_14z68dw_di" bpmnElement="Flow_14z68dw">
         <di:waypoint x="326" y="190" />
         <di:waypoint x="485" y="190" />
@@ -241,9 +241,9 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1hh53wa_di" bpmnElement="Flow_1hh53wa">
         <di:waypoint x="1315" y="410" />
-        <di:waypoint x="1482" y="410" />
+        <di:waypoint x="1592" y="410" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1318" y="392" width="15" height="14" />
+          <dc:Bounds x="1339" y="392" width="15" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0647aye_di" bpmnElement="Flow_0647aye">
