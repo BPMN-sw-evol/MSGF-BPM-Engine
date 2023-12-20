@@ -9,5 +9,8 @@
         <module name="MSGF-BPM-Engine" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="MSGF-BPM-Engine" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>
