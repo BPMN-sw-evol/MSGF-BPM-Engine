@@ -1,0 +1,46 @@
+{
+  "components": [
+    {
+      "text": "# REQUEST REVIEW BY CREDIT ANALYST",
+      "label": "Text view",
+      "type": "text",
+      "layout": {
+        "row": "Row_1hnp1sw",
+        "columns": null
+      },
+      "id": "Field_0tf7eyg"
+    },
+    {
+      "label": "Couple Name 1",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_09t2uxc",
+        "columns": null
+      },
+      "id": "Field_0drrtqg",
+      "key": "coupleName1",
+      "disabled": false,
+      "readonly": true
+    },
+    {
+      "label": "Couple Name 2",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0q5kmhr",
+        "columns": null
+      },
+      "id": "Field_1vfjqp1",
+      "key": "coupleName2",
+      "readonly": true
+    }
+  ],
+  "type": "default",
+  "id": "requestReview",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.18.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.20.0",
+  "schemaVersion": 13
+}
