@@ -7,7 +7,6 @@
     <bpmn:laneSet id="LaneSet_00l4tfi">
       <bpmn:lane id="Lane_05ry7sv" name="Married couple">
         <bpmn:flowNodeRef>StartEvent_1</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Activity_0efdj1c</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_1emma31</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_0zvk2yk" name="Credit analyst">
@@ -99,7 +98,7 @@
       <bpmn:outgoing>Flow_14z68dw</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:sequenceFlow id="Flow_16hrg90" sourceRef="Activity_0r194vo" targetRef="Activity_0n39p7y" />
-    <bpmn:sequenceFlow id="Flow_1xeevjq" sourceRef="Activity_1emma31" targetRef="Activity_0efdj1c" />
+    <bpmn:sequenceFlow id="Flow_1xeevjq" sourceRef="Activity_1emma31" targetRef="Gateway_17wbu36" />
     <bpmn:endEvent id="Event_06o7665" name="Solicitud finalizada">
       <bpmn:incoming>Flow_0pj7crd</bpmn:incoming>
     </bpmn:endEvent>
@@ -128,17 +127,43 @@
       <bpmn:incoming>Flow_135uu2z</bpmn:incoming>
       <bpmn:outgoing>Flow_0pj7crd</bpmn:outgoing>
     </bpmn:parallelGateway>
-    <bpmn:serviceTask id="Activity_0cgomcg" name="Realizar desembolso" camunda:class="com.msgfoundation.delegation.PaymentDelegate">
-      <bpmn:extensionElements />
+    <bpmn:serviceTask id="Activity_0cgomcg" name="Realizar desembolso">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="headers">
+              <camunda:map>
+                <camunda:entry key="Accept">application/json</camunda:entry>
+              </camunda:map>
+            </camunda:inputParameter>
+            <camunda:inputParameter name="method">GET</camunda:inputParameter>
+            <camunda:inputParameter name="url">http://localhost:9004/service/controller</camunda:inputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_0lestyq</bpmn:incoming>
       <bpmn:outgoing>Flow_135uu2z</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sendTask id="Activity_0fra7nj" name="Informar desembolso a pareja y a vendedor" camunda:class="com.msgfoundation.messages.InconsistenciesDelegate">
-      <bpmn:extensionElements />
+    <bpmn:sendTask id="Activity_0fra7nj" name="Informar desembolso a pareja y a vendedor">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="headers">
+              <camunda:map>
+                <camunda:entry key="Accept">application/json</camunda:entry>
+              </camunda:map>
+            </camunda:inputParameter>
+            <camunda:inputParameter name="method">GET</camunda:inputParameter>
+            <camunda:inputParameter name="url">http://localhost:9004/payment/message</camunda:inputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_0wnt3k2</bpmn:incoming>
       <bpmn:outgoing>Flow_05m3bws</bpmn:outgoing>
     </bpmn:sendTask>
-    <bpmn:serviceTask id="Activity_0ix3pe0" name="Calcular valor de cuota" camunda:expression="${1*2}" camunda:resultVariable="value">
+    <bpmn:serviceTask id="Activity_0ix3pe0" name="Calcular cuota de manejo" camunda:expression="${1*2}" camunda:resultVariable="value1">
       <bpmn:incoming>Flow_09cru3p</bpmn:incoming>
       <bpmn:outgoing>Flow_1t6qlnb</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -228,19 +253,24 @@
       <bpmn:incoming>Flow_0wqxkwv</bpmn:incoming>
       <bpmn:outgoing>Flow_0r13bel</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:sequenceFlow id="Flow_04n117z" sourceRef="Activity_0efdj1c" targetRef="Gateway_17wbu36" />
     <bpmn:exclusiveGateway id="Gateway_17wbu36">
       <bpmn:incoming>Flow_182upy2</bpmn:incoming>
-      <bpmn:incoming>Flow_04n117z</bpmn:incoming>
+      <bpmn:incoming>Flow_1xeevjq</bpmn:incoming>
       <bpmn:outgoing>Flow_0wqxkwv</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:userTask id="Activity_0efdj1c" name="Adjuntar soportes">
-      <bpmn:extensionElements>
-        <camunda:formData />
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_1xeevjq</bpmn:incoming>
-      <bpmn:outgoing>Flow_04n117z</bpmn:outgoing>
-    </bpmn:userTask>
+    <bpmn:eventBasedGateway id="Gateway_1uqjwva" name="inconsistencia en la solicitud">
+      <bpmn:incoming>Flow_1c9cn2u</bpmn:incoming>
+      <bpmn:outgoing>Flow_1kkqgw1</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1tsxxym</bpmn:outgoing>
+    </bpmn:eventBasedGateway>
+    <bpmn:sendTask id="Activity_0n39p7y" name="Informar inconsistencias" camunda:class="com.msgfoundation.messages.InconsistenciesDelegate">
+      <bpmn:incoming>Flow_16hrg90</bpmn:incoming>
+      <bpmn:outgoing>Flow_1c9cn2u</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:serviceTask id="Activity_0r194vo" name="Habilitar edición formulario" camunda:delegateExpression="#{activateForm}">
+      <bpmn:incoming>Flow_1ypsfyu</bpmn:incoming>
+      <bpmn:outgoing>Flow_16hrg90</bpmn:outgoing>
+    </bpmn:serviceTask>
     <bpmn:userTask id="Activity_1emma31" name="Diligenciar formulario de solicitud">
       <bpmn:extensionElements>
         <camunda:formData>
@@ -259,19 +289,6 @@
       <bpmn:incoming>Flow_14z68dw</bpmn:incoming>
       <bpmn:outgoing>Flow_1xeevjq</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:eventBasedGateway id="Gateway_1uqjwva" name="inconsistencia en la solicitud">
-      <bpmn:incoming>Flow_1c9cn2u</bpmn:incoming>
-      <bpmn:outgoing>Flow_1kkqgw1</bpmn:outgoing>
-      <bpmn:outgoing>Flow_1tsxxym</bpmn:outgoing>
-    </bpmn:eventBasedGateway>
-    <bpmn:sendTask id="Activity_0n39p7y" name="Informar inconsistencias" camunda:class="com.msgfoundation.messages.InconsistenciesDelegate">
-      <bpmn:incoming>Flow_16hrg90</bpmn:incoming>
-      <bpmn:outgoing>Flow_1c9cn2u</bpmn:outgoing>
-    </bpmn:sendTask>
-    <bpmn:serviceTask id="Activity_0r194vo" name="Habilitar edición formulario" camunda:delegateExpression="#{activateForm}">
-      <bpmn:incoming>Flow_1ypsfyu</bpmn:incoming>
-      <bpmn:outgoing>Flow_16hrg90</bpmn:outgoing>
-    </bpmn:serviceTask>
   </bpmn:process>
   <bpmn:message id="Message_3t29gv6" name="la solicitud tiene inconsistencias" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -425,13 +442,6 @@
       <bpmndi:BPMNShape id="Gateway_17wbu36_di" bpmnElement="Gateway_17wbu36" isMarkerVisible="true">
         <dc:Bounds x="695" y="490" width="50" height="50" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_01evmxg_di" bpmnElement="Activity_0efdj1c">
-        <dc:Bounds x="580" y="175" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0ixmver_di" bpmnElement="Activity_1emma31">
-        <dc:Bounds x="410" y="175" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_15katbk_di" bpmnElement="Gateway_1uqjwva">
         <dc:Bounds x="1525" y="490" width="50" height="50" />
         <bpmndi:BPMNLabel>
@@ -443,6 +453,10 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1p571vc_di" bpmnElement="Activity_0r194vo">
         <dc:Bounds x="1140" y="475" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0ixmver_di" bpmnElement="Activity_1emma31">
+        <dc:Bounds x="420" y="175" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_0pj7crd_di" bpmnElement="Flow_0pj7crd">
@@ -597,18 +611,15 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_14z68dw_di" bpmnElement="Flow_14z68dw">
         <di:waypoint x="326" y="215" />
-        <di:waypoint x="410" y="215" />
+        <di:waypoint x="420" y="215" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_16hrg90_di" bpmnElement="Flow_16hrg90">
         <di:waypoint x="1240" y="515" />
         <di:waypoint x="1330" y="515" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1xeevjq_di" bpmnElement="Flow_1xeevjq">
-        <di:waypoint x="510" y="215" />
-        <di:waypoint x="580" y="215" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_04n117z_di" bpmnElement="Flow_04n117z">
-        <di:waypoint x="630" y="255" />
+        <di:waypoint x="520" y="215" />
+        <di:waypoint x="630" y="215" />
         <di:waypoint x="630" y="515" />
         <di:waypoint x="695" y="515" />
       </bpmndi:BPMNEdge>
