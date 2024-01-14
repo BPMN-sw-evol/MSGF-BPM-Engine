@@ -2,7 +2,6 @@ package com.msgfoundation.delegation;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
@@ -12,13 +11,6 @@ import java.sql.SQLException;
 
 @Service("activateForm")
 public class ActivateFormDelegate implements JavaDelegate {
-    @Value("${spring.datasource.url}")
-    private String jdbcUrl;
-    @Value("${spring.datasource.username}")
-    private String jdbcUsername;
-    @Value("${spring.datasource.password}")
-    private String jdbcPassword;
-
     @Override
     public void execute(DelegateExecution delegateExecution) throws Exception {
         Long codRequest = (Long) delegateExecution.getProcessInstance().getVariables().get("codRequest");
