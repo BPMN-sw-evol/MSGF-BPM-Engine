@@ -230,7 +230,7 @@
     <bpmn:intermediateCatchEvent id="Event_19e8a1c" name="Mensaje de inconsistencias ajustadas">
       <bpmn:incoming>Flow_1kkqgw1</bpmn:incoming>
       <bpmn:outgoing>Flow_182upy2</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_0gf6qe0" messageRef="Message_3t29gv6" />
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0gf6qe0" messageRef="Message_131shod" />
     </bpmn:intermediateCatchEvent>
     <bpmn:endEvent id="Event_0sf663o" name="Solicitud cancelada por inconsistencias">
       <bpmn:incoming>Flow_0b9u95e</bpmn:incoming>
@@ -291,6 +291,7 @@
     </bpmn:userTask>
   </bpmn:process>
   <bpmn:message id="Message_3t29gv6" name="la solicitud tiene inconsistencias" />
+  <bpmn:message id="Message_131shod" name="hayIncosistencias" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0stzrfy">
       <bpmndi:BPMNShape id="Participant_1hx7keg_di" bpmnElement="Participant_1hx7keg" isHorizontal="true">

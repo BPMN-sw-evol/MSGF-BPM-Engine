@@ -19,6 +19,8 @@ public class ActivateFormDelegate implements JavaDelegate {
         }else{
             System.out.println("CodRequest is not defined or is invalid");
         }
+
+        delegateExecution.setProcessBusinessKey(delegateExecution.getProcessInstanceId());
     }
 
     private void updateStatusToDraft(Long codRequest) throws SQLException {
