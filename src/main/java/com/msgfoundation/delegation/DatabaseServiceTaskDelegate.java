@@ -29,13 +29,15 @@ public class DatabaseServiceTaskDelegate implements JavaDelegate {
             long housesPrices = resultSet.getLong("house_prices");
             long quotaValue = resultSet.getLong("quota_value");
 
-            /*System.out.println("Couple Savings: " + coupleSavings);
+            System.out.println("variables obtenidas: ");
+            System.out.println("Couple Savings: " + coupleSavings);
             System.out.println("Houses Prices: " + housesPrices);
-            System.out.println("Quota Value: " + quotaValue);*/
+            System.out.println("Quota Value: " + quotaValue);
 
-            execution.setVariable("coupleSavings",coupleSavings);
-            execution.setVariable("housePrices",housesPrices);
-            execution.setVariable("quotaValue",quotaValue);
+            // Aquí asignamos los valores a las variables de salida definidas en el BPMN
+            execution.setVariable("coupleSavingsOutput", coupleSavings);
+            execution.setVariable("housePricesOutput", housesPrices);
+            execution.setVariable("quotaValueOutput", quotaValue);
         }
     }
     @Override
