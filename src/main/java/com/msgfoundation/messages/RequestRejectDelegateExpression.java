@@ -1,5 +1,7 @@
 package com.msgfoundation.messages;
 
+import com.msgfoundation.annotations.BPMNGetterVariables;
+import com.msgfoundation.annotations.BPMNTask;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,14 +15,19 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.util.Locale;
 
+import java.time.LocalDateTime;
+
 @Service("requestReject")
+@BPMNTask(type="Send Task", name="Informar solicitud anulada por incumplimiento")
 public class RequestRejectDelegateExpression implements JavaDelegate {
     @Autowired
     private JavaMailSender mailSender;
     @Autowired
     private TemplateEngine templateEngine;
     @Override
+    @BPMNGetterVariables(variables = {"coupleName1", "coupleName2", "quotaValue"})
     public void execute(DelegateExecution delegateExecution) throws Exception {
+
         // Obtener variables del proceso
         String processID = delegateExecution.getProcessInstanceId();
         String coupleName1 = (String) delegateExecution.getVariable("coupleName1");
