@@ -1,6 +1,6 @@
 #  MSGF-BPM-ENGINE
 
-This repository integrates the Camunda Engine with a Spring Boot application using a H2 database to persist the structure and resources.
+This repository integrates the Camunda Engine with a Spring Boot application using a PostgreSQL database to persist the structure and resources.
 
 
 ## Index
