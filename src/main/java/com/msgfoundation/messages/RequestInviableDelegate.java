@@ -1,7 +1,5 @@
 package com.msgfoundation.messages;
 
-import com.msgfoundation.annotations.BPMNGetterVariables;
-import com.msgfoundation.annotations.BPMNTask;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +14,12 @@ import javax.mail.internet.MimeMessage;
 import java.util.Locale;
 
 @Component
-@BPMNTask(type="Send Task", name="Informar concepto jurídico no viable")
 public class RequestInviableDelegate implements JavaDelegate {
     @Autowired
     private JavaMailSender mailSender;
     @Autowired
     private TemplateEngine templateEngine;
     @Override
-    @BPMNGetterVariables(variables = {"coupleName1", "coupleName2", "quotaValue"})
     public void execute(DelegateExecution delegateExecution) throws Exception {
         // Obtener variables del proceso
         String processID = (String) delegateExecution.getProcessInstanceId();
@@ -66,17 +62,5 @@ public class RequestInviableDelegate implements JavaDelegate {
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
-
-        String coupleName1 = (String) delegateExecution.getProcessInstance().getVariables().get("coupleName1");
-        String coupleName2 = (String) delegateExecution.getProcessInstance().getVariables().get("coupleName2");
-        Long marriageYears = (Long) delegateExecution.getProcessInstance().getVariables().get("marriageYears");
-        String codInstance = (String) delegateExecution.getProcessInstanceId();
-
-
-        System.out.println("INFORME DE INVIABILIDAD FINANCIERA DE CRÉDITO\n" +
-                "Estimados " + coupleName1 + " y " + coupleName2 + ", la solicitud de crédito es financieramente inválida,\n" +
-                "los años de casados registrados (" + marriageYears +") no cumplen las politicas de viabilidad. \n" +
-                "Código de solicitud: "+ codInstance +
-                "\nFecha de rechazo: "+ LocalDateTime.now());
     }
 }
