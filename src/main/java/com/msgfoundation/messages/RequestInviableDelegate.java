@@ -27,9 +27,9 @@ public class RequestInviableDelegate implements JavaDelegate {
         String coupleName2 = (String) delegateExecution.getVariable("coupleName2");
         String coupleEmail1 = (String) delegateExecution.getVariable("coupleEmail1");
         String coupleEmail2 = (String) delegateExecution.getVariable("coupleEmail2");
-        String coupleSavings = (String) delegateExecution.getVariable("coupleSavings");
-        String quotaValue = (String) delegateExecution.getVariable("quotaValue");
-        String housePrices = (String) delegateExecution.getVariable("housePrices");
+        Long coupleSavings = (Long) delegateExecution.getVariable("coupleSavings");
+        Long quotaValue = (Long) delegateExecution.getVariable("quotaValue");
+        Long housePrices = (Long) delegateExecution.getVariable("housePrices");
 
         // Construir el mensaje de correo electrónico usando Thymeleaf
         String subject = "Informe de Rechazo por Oficina Legal - Inviabilidad";
