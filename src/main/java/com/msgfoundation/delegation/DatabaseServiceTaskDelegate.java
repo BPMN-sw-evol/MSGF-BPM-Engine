@@ -10,10 +10,16 @@ import java.sql.*;
 
 @BPMNTask(type="ServiceTask", name="Consultar información financiera")
 public class DatabaseServiceTaskDelegate implements JavaDelegate {
+    @Value("${spring.datasource.url}")
+    private String databaseUrl;
+    @Value("${spring.datasource.username}")
+    private String databaseUser;
+    @Value("${spring.datasource.password}")
+    private String databasePassword;
 
     @BPMNGetterVariables(variables = {"quotaValue", "housePrices", "coupleSavings"})
     public ResultSet getterVariables(Long codRequest) throws SQLException{
-        Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/credit_request", "postgres", "admin");
+        Connection connection = DriverManager.getConnection(databaseUrl, databaseUser, databasePassword);
 
         String query = "SELECT couple_savings, house_prices, quota_value FROM credit_request WHERE cod_request = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
